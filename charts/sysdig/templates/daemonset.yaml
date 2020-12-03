@@ -189,7 +189,7 @@ spec:
               - key: prometheus.yaml
               # - key: scrape_configs
                 # path: global
-                # path: scrape_configs
+                path: scrape_configs
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
