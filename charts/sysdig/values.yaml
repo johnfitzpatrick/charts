@@ -253,7 +253,7 @@ customAppChecks: {}
 prometheus:
   file: true
   yaml:
-    global: 
+    global:
       scrape_interval: 15s
 
 extraVolumes:
