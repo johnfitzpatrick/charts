@@ -84,7 +84,7 @@ spec:
           ports:
           - containerPort: 80
           volumeMounts:
-            - mountPath: /etc/nginx
+            - mountPath: /etc/hack
               name: sysdig-agent-config
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
