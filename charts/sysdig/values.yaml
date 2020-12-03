@@ -252,7 +252,9 @@ customAppChecks: {}
 # Promscrape prometheus.yaml not configured by default
 prometheus:
   file: false
-  yaml: {}
+  yaml:
+    global: 
+      scrape_interval: 15s
 
 extraVolumes:
   volumes: []
