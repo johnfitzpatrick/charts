@@ -142,9 +142,12 @@ spec:
               name: modprobe-d
               readOnly: true
             {{- end }}
-            - mountPath: /home
+            - mountPath: /opt/draios/etc/kubernetes/config
               name: promfiles
               readOnly: false
+            # - mountPath: /home
+            #   name: promfiles
+            #   readOnly: false
             - mountPath: /host/dev
               name: dev-vol
               readOnly: false
