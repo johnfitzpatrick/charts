@@ -89,7 +89,7 @@ spec:
             #   readOnly: false
             - mountPath: /home/prom
               name: promfiles
-            - mountPath: /opt/draios/etc/kubernetes/config/base_prometheus.yaml
+            - mountPath: /opt/draios/etc/kubernetes/config/base_prometheus_sidecar.yaml
               name: sysdig-agent-config
               subPath: prometheus.yaml
             - mountPath: /opt/draios/etc/kubernetes/config
