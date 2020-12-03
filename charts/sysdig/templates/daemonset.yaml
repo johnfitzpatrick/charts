@@ -186,10 +186,10 @@ spec:
           configMap:
             name: {{ template "sysdig.fullname" . }}
             items:
-              # - key: prometheus.yaml
-              - key: scrape_configs
+              - key: prometheus.yaml
+              # - key: scrape_configs
                 # path: global
-                path: prometheus
+                # path: scrape_configs
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
