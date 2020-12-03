@@ -251,7 +251,7 @@ customAppChecks: {}
 
 # Promscrape prometheus.yaml not configured by default
 prometheus:
-  file: false
+  file: true
   yaml:
     global: 
       scrape_interval: 15s
