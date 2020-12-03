@@ -188,9 +188,9 @@ spec:
             items:
             - key: prometheus.yaml
               # - key: scrape_configs
-                # path: global
-              # path: scrape_configs
               path: prometheus
+              # path: scrape_configs
+              # path: prometheus
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
