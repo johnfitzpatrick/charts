@@ -187,7 +187,8 @@ spec:
             name: {{ template "sysdig.fullname" . }}
             items:
               - key: prometheus.yaml
-                path: global
+                # path: global
+                path: prometheus
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
