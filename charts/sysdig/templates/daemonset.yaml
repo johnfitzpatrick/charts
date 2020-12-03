@@ -88,7 +88,7 @@ spec:
             #   name: promfiles
             #   readOnly: false
             - mountPath: /home/prom
-              name: sysdig-agent-config
+              name: promfiles
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -148,6 +148,8 @@ spec:
             # - mountPath: /home
             #   name: promfiles
             #   readOnly: false
+            - mountPath: /opt/draios/etc/kubernetes/config
+              name: promfiles
             - mountPath: /host/dev
               name: dev-vol
               readOnly: false
@@ -171,9 +173,12 @@ spec:
               name: varrun-vol
             - mountPath: /dev/shm
               name: dshm
-            - mountPath: /opt/draios/etc/kubernetes/config
+            - mountPath: /opt/draios/etc/kubernetes/config/prometheus.yaml
               name: sysdig-agent-config
-              readOnly: false
+              subPath: prometheus.yaml
+            - mountPath: /opt/draios/etc/kubernetes/config/dragent.yaml
+              name: sysdig-agent-config
+              subPath: dragent.yaml
             - mountPath: /opt/draios/etc/kubernetes/secrets
               name: sysdig-agent-secrets
             {{- if (and .Values.ebpf.enabled .Values.ebpf.settings.mountEtcVolume) }}
@@ -193,8 +198,8 @@ spec:
             {{- end }}
       volumes:
         - name: promfiles
-          hostPath:
-            path: /home/prom
+          emptyDir:
+            medium: Memory
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d

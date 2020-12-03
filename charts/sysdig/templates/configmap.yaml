@@ -27,7 +27,7 @@ data:
 {{- end }}
 {{- $disableCaptures := include "get_or_fail_if_in_settings" (dict "root" . "key" "sysdig.disableCaptures" "setting" "sysdig_capture_enabled")}}
 {{- if eq $disableCaptures "true" }}
-    sysdig_capture_enabled: false 
+    sysdig_capture_enabled: false
 {{- end }}
 {{- $collectorHost := include "get_or_fail_if_in_settings" (dict "root" . "key" "collectorSettings.collectorHost" "setting" "collector")}}
 {{- if $collectorHost }}
@@ -49,6 +49,6 @@ data:
 {{ toYaml .Values.sysdig.settings | indent 4 }}
 {{- end }}
 {{- if .Values.prometheus.file }}
-  prometheus.yaml: |
+  base_prometheus.yaml: |
 {{ toYaml .Values.prometheus.yaml | indent 4 }}
 {{- end }}
