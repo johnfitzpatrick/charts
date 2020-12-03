@@ -79,7 +79,7 @@ spec:
               readOnly: true
       {{- end }}
       containers:
-        - name: sysdig-sidecar
+        - name: prom-sidecar
           image: nginx:1.14.2
           ports:
           - containerPort: 80
@@ -186,10 +186,11 @@ spec:
           configMap:
             name: {{ template "sysdig.fullname" . }}
             items:
-              - key: prometheus.yaml
-              # - key: scrape_configs
+              # - key: prometheus.yaml
+              - key: scrape_configs
                 # path: global
-                path: scrape_configs
+                # path: scrape_configs
+                path: prometheus
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
