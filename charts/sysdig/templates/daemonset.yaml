@@ -84,11 +84,11 @@ spec:
           ports:
           - containerPort: 80
           volumeMounts:
-            - mountPath: /home
-              name: promfiles
-              readOnly: false
-            # - mountPath: /etc/hack
-            #   name: sysdig-agent-config
+            # - mountPath: /home
+            #   name: promfiles
+            #   readOnly: false
+            - mountPath: /home/prom
+              name: sysdig-agent-config
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -142,9 +142,9 @@ spec:
               name: modprobe-d
               readOnly: true
             {{- end }}
-            - mountPath: /opt/draios/etc/kubernetes/config
-              name: promfiles
-              readOnly: false
+            # - mountPath: /opt/draios/etc/kubernetes/config
+            #   name: promfiles
+            #   readOnly: false
             # - mountPath: /home
             #   name: promfiles
             #   readOnly: false
@@ -173,6 +173,7 @@ spec:
               name: dshm
             - mountPath: /opt/draios/etc/kubernetes/config
               name: sysdig-agent-config
+              readOnly: false
             - mountPath: /opt/draios/etc/kubernetes/secrets
               name: sysdig-agent-secrets
             {{- if (and .Values.ebpf.enabled .Values.ebpf.settings.mountEtcVolume) }}
