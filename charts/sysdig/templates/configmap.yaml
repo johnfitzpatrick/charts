@@ -50,5 +50,7 @@ data:
 {{- end }}
 {{- if .Values.prometheus.file }}
   prometheus.yaml: |
+    # --- prometheus.yaml base begin ---
 {{ toYaml .Values.prometheus.yaml | indent 4 }}
+    # --- prometheus.yaml base end ---
 {{- end }}

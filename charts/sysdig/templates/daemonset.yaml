@@ -79,13 +79,13 @@ spec:
               readOnly: true
       {{- end }}
       containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-          - containerPort: 80
+        - name: prometheus-mc
+          image: docker.io/sysdiglabs/prometheus-mc:latest
           volumeMounts:
-          - name: prom-config
-            mountPath: /home/prometheus
+            - mountPath: "/tmp/shared-config"
+              name: shared-config
+            - mountPath: "/tmp/agent-config"
+              name: sysdig-agent-config
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -163,7 +163,10 @@ spec:
             - mountPath: /dev/shm
               name: dshm
             - mountPath: /opt/draios/etc/kubernetes/config
+              name: shared-config
+            - mountPath: "/opt/draios/etc/kubernetes/config/dragent.yaml"
               name: sysdig-agent-config
+              subPath: "dragent.yaml"
             - mountPath: /opt/draios/etc/kubernetes/secrets
               name: sysdig-agent-secrets
             {{- if (and .Values.ebpf.enabled .Values.ebpf.settings.mountEtcVolume) }}
@@ -227,6 +230,9 @@ spec:
           hostPath:
             path: /etc
         {{- end }}
+        - name: shared-config
+          emptyDir:
+            medium: Memory
         - name: sysdig-agent-config
           configMap:
             name: {{ template "sysdig.fullname" . }}
