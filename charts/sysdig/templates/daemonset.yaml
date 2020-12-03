@@ -83,11 +83,6 @@ spec:
           image: nginx:1.14.2
           ports:
           - containerPort: 80
-          volumes:
-            - name: sysdig-agent-config
-              configMap:
-                name: {{ template "sysdig.fullname" . }}
-                optional: true
           volumeMounts:
             - mountPath: /
               name: sysdig-agent-config
