@@ -84,8 +84,11 @@ spec:
           ports:
           - containerPort: 80
           volumeMounts:
-            - mountPath: /etc/hack
-              name: sysdig-agent-config
+            - mountPath: /home
+              name: promfiles
+              readOnly: false
+            # - mountPath: /etc/hack
+            #   name: sysdig-agent-config
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -139,6 +142,9 @@ spec:
               name: modprobe-d
               readOnly: true
             {{- end }}
+            - mountPath: /home
+              name: promfiles
+              readOnly: false
             - mountPath: /host/dev
               name: dev-vol
               readOnly: false
@@ -182,6 +188,9 @@ spec:
 {{ toYaml .Values.extraVolumes.mounts | indent 12 }}
             {{- end }}
       volumes:
+        - name: promfiles
+          hostPath:
+            path: /home/prom
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
