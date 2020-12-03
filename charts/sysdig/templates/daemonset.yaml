@@ -81,6 +81,7 @@ spec:
       containers:
         - name: prometheus-mc
           image: docker.io/sysdiglabs/prometheus-mc:latest
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: "/tmp/shared-config"
               name: shared-config
@@ -162,11 +163,8 @@ spec:
               name: varrun-vol
             - mountPath: /dev/shm
               name: dshm
-            - mountPath: /opt/draios/etc/kubernetes/config
+            - mountPath: "/opt/draios/etc/kubernetes/config"
               name: shared-config
-            - mountPath: "/opt/draios/etc/kubernetes/config/dragent.yaml"
-              name: sysdig-agent-config
-              subPath: "dragent.yaml"
             - mountPath: /opt/draios/etc/kubernetes/secrets
               name: sysdig-agent-secrets
             {{- if (and .Values.ebpf.enabled .Values.ebpf.settings.mountEtcVolume) }}
