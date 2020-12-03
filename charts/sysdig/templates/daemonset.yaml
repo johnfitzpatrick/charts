@@ -81,7 +81,7 @@ spec:
       containers:
         - name: prometheus-mc
           image: docker.io/sysdiglabs/prometheus-mc:latest
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: Always
           volumeMounts:
             - mountPath: "/tmp/shared-config"
               name: shared-config
