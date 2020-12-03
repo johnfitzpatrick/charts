@@ -49,6 +49,6 @@ data:
 {{ toYaml .Values.sysdig.settings | indent 4 }}
 {{- end }}
 {{- if .Values.prometheus.file }}
-  base_prometheus.yaml: |
+  prometheus.yaml: |
 {{ toYaml .Values.prometheus.yaml | indent 4 }}
 {{- end }}
