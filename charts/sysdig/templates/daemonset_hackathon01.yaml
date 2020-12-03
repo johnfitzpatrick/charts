@@ -79,13 +79,21 @@ spec:
               readOnly: true
       {{- end }}
       containers:
-        - name: sysdig-sidecar
+        - name: nginx
           image: nginx:1.14.2
           ports:
           - containerPort: 80
           volumeMounts:
-          - name: prometheus-config
-            mountPath: /home/prometheus
+            # - mountPath: /home
+            #   name: promfiles
+            #   readOnly: false
+            - mountPath: /home/prom
+              name: promfiles
+            - mountPath: /opt/draios/etc/kubernetes/config/base_prometheus_sidecar.yaml
+              name: sysdig-agent-config
+              subPath: prometheus.yaml
+            - mountPath: /opt/draios/etc/kubernetes/config
+              name: sysdig-agent-config-prometheus
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -139,6 +147,14 @@ spec:
               name: modprobe-d
               readOnly: true
             {{- end }}
+            # - mountPath: /opt/draios/etc/kubernetes/config
+            #   name: promfiles
+            #   readOnly: false
+            # - mountPath: /home
+            #   name: promfiles
+            #   readOnly: false
+            - mountPath: /opt/draios/etc/kubernetes/config
+              name: promfiles
             - mountPath: /host/dev
               name: dev-vol
               readOnly: false
@@ -162,8 +178,12 @@ spec:
               name: varrun-vol
             - mountPath: /dev/shm
               name: dshm
-            - mountPath: /opt/draios/etc/kubernetes/config
+            - mountPath: /opt/draios/etc/kubernetes/config/base_prometheus.yaml
               name: sysdig-agent-config
+              subPath: prometheus.yaml
+            - mountPath: /opt/draios/etc/kubernetes/config/dragent.yaml
+              name: sysdig-agent-config
+              subPath: dragent.yaml
             - mountPath: /opt/draios/etc/kubernetes/secrets
               name: sysdig-agent-secrets
             {{- if (and .Values.ebpf.enabled .Values.ebpf.settings.mountEtcVolume) }}
@@ -182,14 +202,9 @@ spec:
 {{ toYaml .Values.extraVolumes.mounts | indent 12 }}
             {{- end }}
       volumes:
-        - name: prometheus-config
-          configMap:
-            name: {{ template "sysdig.fullname" . }}
-            items:
-              - key: prometheus.yaml
-              # - key: scrape_configs
-                # path: global
-                path: scrape_configs
+        - name: promfiles
+          emptyDir:
+            medium: Memory
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
@@ -228,6 +243,13 @@ spec:
         {{- end }}
         - name: sysdig-agent-config
           configMap:
+            name: {{ template "sysdig.fullname" . }}
+            optional: true
+        - name: sysdig-agent-config-prometheus
+          configMap:
+            items:
+              - key: prometheus.yaml
+                path: prometheus2.yaml
             name: {{ template "sysdig.fullname" . }}
             optional: true
         - name: sysdig-agent-secrets
