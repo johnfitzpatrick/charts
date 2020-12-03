@@ -89,6 +89,11 @@ spec:
             #   readOnly: false
             - mountPath: /home/prom
               name: promfiles
+            - mountPath: /opt/draios/etc/kubernetes/config/base_prometheus.yaml
+              name: sysdig-agent-config
+              subPath: prometheus.yaml
+            - mountPath: /opt/draios/etc/kubernetes/config
+              name: sysdig-agent-config-prometheus
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -238,6 +243,13 @@ spec:
         {{- end }}
         - name: sysdig-agent-config
           configMap:
+            name: {{ template "sysdig.fullname" . }}
+            optional: true
+        - name: sysdig-agent-config-prometheus
+          configMap:
+            items:
+              - key: prometheus.yaml
+                path: prometheus2.yaml
             name: {{ template "sysdig.fullname" . }}
             optional: true
         - name: sysdig-agent-secrets
