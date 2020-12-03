@@ -84,7 +84,7 @@ spec:
           ports:
           - containerPort: 80
           volumeMounts:
-          - name: prometheus-config
+          - name: prom-config
             mountPath: /home/prometheus
         - name: {{ .Chart.Name }}
           image: {{ template "sysdig.image" . }}
@@ -182,7 +182,7 @@ spec:
 {{ toYaml .Values.extraVolumes.mounts | indent 12 }}
             {{- end }}
       volumes:
-        - name: prometheus-config
+        - name: prom-config
           configMap:
             name: {{ template "sysdig.fullname" . }}
             items:
