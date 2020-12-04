@@ -1,0 +1,11 @@
+# Promscrape prometheus.yaml not configured by default
+prometheus:
+  file: true
+  yaml:
+    global:
+      scrape_interval: "15s"
+    scrape_configs:
+      - job_name: 'k8s-pods'
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs: []
