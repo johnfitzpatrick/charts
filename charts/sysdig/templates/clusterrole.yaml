@@ -63,6 +63,14 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - "monitor.sysdig.com"
+    verbs:
+      - list
+      - get
+    resources:
+      - "prometheusintegrations"
+      - "prometheusintegrationtemplates"
 {{- if .Values.psp.create  }}
   - apiGroups:
       - "policy"
