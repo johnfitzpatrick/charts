@@ -183,15 +183,6 @@ spec:
 {{ toYaml .Values.extraVolumes.mounts | indent 12 }}
             {{- end }}
       volumes:
-        - name: prom-config
-          configMap:
-            name: {{ template "sysdig.fullname" . }}
-            items:
-            - key: prometheus.yaml
-              # - key: scrape_configs
-              path: prometheus
-              # path: scrape_configs
-              # path: prometheus
         - name: modprobe-d
           hostPath:
             path: /etc/modprobe.d
